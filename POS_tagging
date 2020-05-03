@@ -1,0 +1,27 @@
+import pandas as pd
+
+from string import punctuation
+
+from nltk import word_tokenize
+from nltk import pos_tag
+from nltk.corpus import stopwords
+
+
+clinton_data = pd.read_csv('clinton_data_gender.csv')
+author_genders = clinton_data.loc[:, 'gender'].copy()
+article_contents = clinton_data.loc[:, 'content'].copy()
+
+
+def clean_text(text):
+    tokens = word_tokenize(text)
+    token_cleaned = [word for word in tokens if not word in stopwords.words() and not word in punctuation]
+    return token_cleaned
+
+
+for article in range(len(article_contents)):
+    print((article / len(article_contents) * 100), '%')
+    processed_article = clean_text(article_contents.iloc[article])
+    processed_article = pos_tag(processed_article)
+    article_contents.iloc[article] = processed_article
+
+print(article_contents)

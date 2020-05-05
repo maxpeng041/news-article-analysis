@@ -22,6 +22,7 @@ from sklearn.linear_model import LogisticRegression
 df = pd.read_csv('clinton_data_gender.csv')
 print(df['gender'].value_counts())
 
+df = df[df['gender'] != 'B']
 def clean_text(unprocessed_string):
     stop_words = stopwords.words()
     cleaned_text = ""
@@ -72,10 +73,14 @@ def vec_for_learning(model, tagged_docs):
 
 y_train, X_train = vec_for_learning(model_dbow, train_tagged)
 y_test, X_test = vec_for_learning(model_dbow, test_tagged)
-logreg = LogisticRegression(n_jobs=1, C=1e5)
+logreg = LogisticRegression(n_jobs=1, C=1e5, max_iter=1000)
 logreg.fit(X_train, y_train)
 y_pred = logreg.predict(X_test)
 
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, classification_report
+
+detailedReport = classification_report(y_test, y_pred)
+
+print("Below is a detailed report of the models performance")
+print(detailedReport)
 print('Testing accuracy %s' % accuracy_score(y_test, y_pred))
-print('Testing F1 score: {}'.format(f1_score(y_test, y_pred, average='weighted')))

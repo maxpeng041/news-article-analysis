@@ -1,6 +1,7 @@
 # news-article-analysis
 
 "news_article_analysis.ipynb" is the main file that contains all of our latest work.
+"Investigating Gender Bias in Sociopolitical News Articles.pdf" is the paper that describes our project.
 
 ## Set up guide
 Packages that need to be installed:
